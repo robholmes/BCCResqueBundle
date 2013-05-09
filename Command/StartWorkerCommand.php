@@ -46,8 +46,13 @@ class StartWorkerCommand extends ContainerAwareCommand
 
         $redisHost = $this->getContainer()->getParameter('bcc_resque.resque.redis.host');
         $redisPort = $this->getContainer()->getParameter('bcc_resque.resque.redis.port');
+        $redisUser = $this->getContainer()->getParameter('bcc_resque.resque.redis.user');
+        $redisPswd = $this->getContainer()->getParameter('bcc_resque.resque.redis.password');
         $redisDatabase = $this->getContainer()->getParameter('bcc_resque.resque.redis.database');
-        if ($redisHost != null && $redisPort != null) {
+        if ($redisUser != null && $redisPswd != null && $redisHost != null && $redisPort != null) {
+            $env['REDIS_BACKEND'] = 'redis://'.$redisUser.':'.$redisPswd.'@'.$redisHost.':'.$redisPort;
+        }
+        else if ($redisHost != null && $redisPort != null) {
             $env['REDIS_BACKEND'] = $redisHost.':'.$redisPort;
         }
         if (isset($redisDatabase)) {
@@ -58,7 +63,7 @@ class StartWorkerCommand extends ContainerAwareCommand
         if (0 !== $m = (int) $input->getOption('memory-limit')) {
             $opt = sprintf('-d memory_limit=%dM', $m);
         }
-        $workerCommand = strtr('php %opt% %dir%/chrisboulton/php-resque/resque.php', array(
+        $workerCommand = strtr('php %opt% %dir%/chrisboulton/php-resque/bin/resque', array(
             '%opt%' => $opt,
             '%dir%' => $this->getContainer()->getParameter('bcc_resque.resque.vendor_dir'),
         ));
