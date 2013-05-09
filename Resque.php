@@ -35,7 +35,7 @@ class Resque
         );
 
         if ($user && $password) {
-            \Resque::setBackend($user.':'.$password.'@'.$host.':'.$port, $database);
+            \Resque::setBackend('redis://'.$user.':'.$password.'@'.$host.':'.$port, $database);
         } else {
             \Resque::setBackend($host.':'.$port, $database);
         }
