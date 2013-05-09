@@ -11,6 +11,8 @@
         <parameter key="bcc_resque.prefix" />
         <parameter key="bcc_resque.redis.host" />
         <parameter key="bcc_resque.redis.port" />
+        <parameter key="bcc_resque.redis.user" />
+        <parameter key="bcc_resque.redis.password" />
         <parameter key="bcc_resque.redis.database" />
     </parameters>
 
@@ -24,6 +26,8 @@
             <call method="setRedisConfiguration">
                 <argument>%bcc_resque.resque.redis.host%</argument>
                 <argument>%bcc_resque.resque.redis.port%</argument>
+                <argument>%bcc_resque.resque.redis.user%</argument>
+                <argument>%bcc_resque.resque.redis.password%</argument>
                 <argument>%bcc_resque.resque.redis.database%</argument>
             </call>
             <call method="pruneDeadWorkers" />
